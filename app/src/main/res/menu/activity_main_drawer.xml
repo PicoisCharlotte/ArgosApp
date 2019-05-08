@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/menu_accueil"
+            android:icon="@drawable/menu"
+            android:title="@string/accueil"/>
+        <item
+            android:id="@+id/menu_connexion"
+            android:icon="@drawable/menu"
+            android:title="@string/connexion"/>
+    </group>
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/menu_profil"
+            android:icon="@drawable/menu"
+            android:title="@string/monprofil"/>
+        <item
+            android:id="@+id/menu_robots"
+            android:icon="@drawable/menu"
+            android:title="@string/mesrobots"/>
+    </group>
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/menu_deconnexion"
+            android:title="@string/deconnexion"/>
+    </group>
+</menu>
