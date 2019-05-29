@@ -1,6 +1,6 @@
 package app.argos.com.argosapp.Fragment
 
-import android.app.Fragment
+import android.support.v4.app.Fragment
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -26,6 +26,7 @@ class ProfilFragment : Fragment() {
             return ProfilFragment()
         }
     }
+
     lateinit var _db: DatabaseReference
 
     override fun onCreateView(inflater: LayoutInflater,

@@ -2,86 +2,92 @@ package app.argos.com.argosapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import app.argos.com.argosapp.Fragment.HomeFragment
 import app.argos.com.argosapp.Fragment.ProfilFragment
 import app.argos.com.argosapp.Fragment.RobotsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import okhttp3.*
+import java.io.IOException
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity() {
+
+
+    private val client = OkHttpClient()
+    private var text = "salut test";
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        //setSupportActionBar(toolbar)
 
-        val toggle = ActionBarDrawerToggle(
+        /*val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
+        toggle.syncState()*/
 
-        nav_view.setNavigationItemSelectedListener(this)
+        this.tabbar.setOnNavigationItemSelectedListener (mOnNavigationItemSelectedListener)
+
+        val url = "https://argosapi.herokuapp.com/robot/select?action=selectWhereRobot&idUserRobot=1"
+        val request = Request.Builder()
+                .url(url)
+                .addHeader("access-token", Statics.API_TOKEN)
+                .build()
+
+        val callApi = client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                text = "failed"
+            }
+            override fun onResponse(call: Call, response: Response) {
+                text = "success"
+            }
+        })
+
+        testapi.setText(text)
+
     }
-
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
+            R.id.accueil -> {
+                val homeFragment = HomeFragment.newInstance()
+                openFragment(homeFragment)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.robots -> {
+                val robotsFragment = RobotsFragment.newInstance()
+                openFragment(robotsFragment)
+                return@OnNavigationItemSelectedListener true
+            }
         }
+        false
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-            R.id.menu_accueil -> {
-                startActivity(Intent(this, MainActivity::class.java))
-            }
-            R.id.menu_connexion -> {
-                startActivity(Intent(this, ConnexionActivity::class.java))
-            }
-            R.id.menu_deconnexion -> {
-                startActivity(Intent(this, ConnexionActivity::class.java))
-            }
-            R.id.menu_profil -> {
-                supportFragmentManager
-                        .beginTransaction()
-                        .add(this.content.id, ProfilFragment.newInstance() as Fragment, "profilFragment")
-                        .commit()
-            }
-            R.id.menu_robots -> {
-                supportFragmentManager
-                        .beginTransaction()
-                        .add(this.content.id, RobotsFragment.newInstance() as Fragment, "robotsFragment")
-                        .commit()
-            }
-        }
+    private fun openFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
 
-        drawer_layout.closeDrawer(GravityCompat.START)
-        return true
+    fun run(url: String) {
+        val request = Request.Builder()
+                .url(url)
+                .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {}
+            override fun onResponse(call: Call, response: Response) = testapi.setText(response.body()?.string())
+        })
     }
 }

@@ -7,4 +7,5 @@ package app.argos.com.argosapp
 object Statics {
     @JvmStatic val FIREBASE_USER: String = "user"
     @JvmStatic val FIREBASE_ROBOT: String = "robot"
+    @JvmStatic val API_TOKEN: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjo1LCJpYXQiOjE1NTg4ODY1MzgsImV4cCI6MTU1ODk3MjkzOH0.O1_I9pEV3Wbzh1S_yuRGnIunPidl0mRD61rWQo2lIvs"
 }
