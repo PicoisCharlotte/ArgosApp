@@ -11,8 +11,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import app.argos.com.argosapp.R
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -27,15 +25,10 @@ class HomeFragment : Fragment() {
         }
     }
 
-    lateinit var _db: DatabaseReference
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
-        _db = FirebaseDatabase.getInstance().reference
-
-
 
         return inflater.inflate(R.layout.fragment_home, container, false)
 

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context="app.argos.com.argosapp.ConnexionActivity">
 
     <RelativeLayout
         android:id="@+id/navigationBar"
@@ -80,12 +82,6 @@
             android:text="@string/motdepasseoublie"
             android:background="@android:color/transparent" />
 
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/loading_indicator"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
     </LinearLayout>
 
 </RelativeLayout>

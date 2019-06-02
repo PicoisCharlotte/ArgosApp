@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <RelativeLayout
         android:id="@+id/navigationBar"
         android:layout_width="match_parent"
@@ -29,10 +30,19 @@
             android:text="@string/mesrobots_maj" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_robots"
+    <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/navigationBar"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/navigationBar">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_robots"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
 
 </RelativeLayout>
