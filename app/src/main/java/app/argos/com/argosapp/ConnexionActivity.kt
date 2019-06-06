@@ -10,11 +10,15 @@ import java.net.HttpURLConnection
 import java.net.URL
 import android.content.Intent
 import android.support.compat.R.id.text
+import android.util.Log
 import android.widget.Toast
 import app.argos.com.argosapp.Model.User
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
 import okhttp3.*
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.IOException
 
 
@@ -25,7 +29,6 @@ class ConnexionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_connexion)
-
         btn_connexion.setOnClickListener {
             sendGet()
         }
@@ -44,15 +47,54 @@ class ConnexionActivity : AppCompatActivity() {
 
         val callApi = client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Toast.makeText(applicationContext,"FAIL",Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "FAIL", Toast.LENGTH_SHORT).show()
             }
+
             override fun onResponse(call: Call, response: Response) {
                 Statics.IS_CONNECTED = true;
                 var body = response?.body()?.string()
 
-                val gson = GsonBuilder().create()
-                gson.fromJson<User>(body, User::class.java)
-                println(body)
+                try {
+                    if (!response.isSuccessful) {
+
+                        try {
+                            val Jobject = JSONObject(body)
+
+
+                            if (Jobject.getBoolean("success")) {
+                            } else {
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+
+                    } else {
+
+                        response.body()!!.close()
+                        try {
+                            val Jobject = JSONObject(body)
+
+                            /*if (Jobject.getString("data") != null && !Jobject.getString("data").equals("")) {
+                                val userJSON = Jobject.getString("data")
+                                val userObject = JsonObject(userJSON)
+                                val id_user = userJSON.getInt("id_user")
+                                val cellphone = userJSON.getString("cellphone")
+                                val email = userJSON.getString("email")
+                                val user : User()
+                            }*/
+                            if(Jobject.getString("token") != null && !Jobject.getString("token").equals("")){
+                                Statics.API_TOKEN = Jobject.getString("token")
+                            }
+
+                            applicationContext.startActivity(Intent(applicationContext, MainActivity::class.java))
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
             }
         })
     }

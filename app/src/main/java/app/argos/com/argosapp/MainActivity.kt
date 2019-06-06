@@ -49,6 +49,9 @@ class MainActivity : AppCompatActivity() {
 
         this.tabbar.setOnNavigationItemSelectedListener (mOnNavigationItemSelectedListener)
 
+        val homeFragment = HomeFragment.newInstance()
+        openFragment(homeFragment)
+
         val url = "https://argosapi.herokuapp.com/robot/select?action=selectWhereRobot&idUserRobot=1"
         val request = Request.Builder()
                 .url(url)
@@ -70,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment)
+        transaction.replace(R.id.content, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }

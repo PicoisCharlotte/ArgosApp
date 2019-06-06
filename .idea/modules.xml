@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ArgosApp.iml" filepath="$PROJECT_DIR$/ArgosApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/argosapp.iml" filepath="$PROJECT_DIR$/.idea/argosapp.iml" />
     </modules>
   </component>
 </project>
