@@ -3,13 +3,10 @@ package app.argos.com.argosapp.Model
 /**
  * Created by charlotte on 08.05.2019.
  */
-class User {
+class User(id: Int?, email: String?, cellphone: String?) {
 
-    companion object Factory {
-        fun create(): User = User()
-    }
+    var id: Int? = id
+    var email: String? = email
+    var cellphone: String? = cellphone
 
-    var id: Int? = null
-    var email: String? = null
-    var cellphone: String? = null
 }

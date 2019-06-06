@@ -12,6 +12,8 @@ import android.content.Intent
 import android.support.compat.R.id.text
 import android.widget.Toast
 import app.argos.com.argosapp.Model.User
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import okhttp3.*
 import java.io.IOException
 
@@ -45,7 +47,12 @@ class ConnexionActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext,"FAIL",Toast.LENGTH_SHORT).show()
             }
             override fun onResponse(call: Call, response: Response) {
-                Toast.makeText(applicationContext, "SUCCESS", Toast.LENGTH_SHORT).show()
+                Statics.IS_CONNECTED = true;
+                var body = response?.body()?.string()
+
+                val gson = GsonBuilder().create()
+                gson.fromJson<User>(body, User::class.java)
+                println(body)
             }
         })
     }
