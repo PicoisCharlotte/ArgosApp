@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "479043097642",
+    "project_id": "argosapp-72e27",
+    "storage_bucket": "argosapp-72e27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479043097642:android:bb870f30950071ea",
+        "android_client_info": {
+          "package_name": "app.argos.com.argosapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479043097642-9maeq9mlfbnps3jnf3a5406osf6nql9v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.argos.com.argosapp",
+            "certificate_hash": "fdc8e5541850cd8d62aba11ef7898f0ff28a6c6f"
+          }
+        },
+        {
+          "client_id": "479043097642-ear8mvs9rbfr54ar4l6sdi0tt1lr7h45.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDopyV9CLTypgYzmYKWTMxjXP2ZPPdZd2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479043097642-ear8mvs9rbfr54ar4l6sdi0tt1lr7h45.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
