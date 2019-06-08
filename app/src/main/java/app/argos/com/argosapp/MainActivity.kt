@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
 
 
     private val client = OkHttpClient()
-    private var text = "salut test";
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -51,24 +50,6 @@ class MainActivity : AppCompatActivity() {
 
         val homeFragment = HomeFragment.newInstance()
         openFragment(homeFragment)
-
-        val url = "https://argosapi.herokuapp.com/robot/select?action=selectWhereRobot&idUserRobot=1"
-        val request = Request.Builder()
-                .url(url)
-                .addHeader("access-token", Statics.API_TOKEN)
-                .build()
-
-        val callApi = client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                text = "failed"
-            }
-            override fun onResponse(call: Call, response: Response) {
-                text = "success"
-            }
-        })
-
-        testapi.setText(text)
-
     }
 
     private fun openFragment(fragment: Fragment) {
@@ -76,16 +57,5 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.content, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
-    }
-
-    fun run(url: String) {
-        val request = Request.Builder()
-                .url(url)
-                .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {}
-            override fun onResponse(call: Call, response: Response) = testapi.setText(response.body()?.string())
-        })
     }
 }

@@ -17,6 +17,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import okhttp3.*
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
@@ -74,14 +75,14 @@ class ConnexionActivity : AppCompatActivity() {
                         try {
                             val Jobject = JSONObject(body)
 
-                            /*if (Jobject.getString("data") != null && !Jobject.getString("data").equals("")) {
-                                val userJSON = Jobject.getString("data")
-                                val userObject = JsonObject(userJSON)
-                                val id_user = userJSON.getInt("id_user")
-                                val cellphone = userJSON.getString("cellphone")
-                                val email = userJSON.getString("email")
-                                val user : User()
-                            }*/
+                            if (Jobject.getString("data") != null && !Jobject.getString("data").equals("")) {
+                                val userJSONArray = JSONArray(Jobject.getString("data"))
+                                val userJSON = JSONObject(userJSONArray.get(0).toString())
+                                val user = User(userJSON)
+                                User.instance.id = user.id
+                                User.instance.email = user.email
+                                User.instance.cellphone = user.cellphone
+                            }
                             if(Jobject.getString("token") != null && !Jobject.getString("token").equals("")){
                                 Statics.API_TOKEN = Jobject.getString("token")
                             }
