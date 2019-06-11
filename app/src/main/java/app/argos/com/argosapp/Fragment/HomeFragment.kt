@@ -2,18 +2,12 @@ package app.argos.com.argosapp.Fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.annotation.NonNull
-import android.support.design.widget.BottomNavigationView
-import android.support.v7.app.AppCompatActivity
 import android.support.v4.app.Fragment
-import android.support.v7.app.ActionBar
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import app.argos.com.argosapp.Model.User
 import app.argos.com.argosapp.R
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 /**

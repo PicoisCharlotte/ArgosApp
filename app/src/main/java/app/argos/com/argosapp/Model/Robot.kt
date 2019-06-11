@@ -29,7 +29,6 @@ class Robot {
             this.name = JObject.getString("name")
         if(JObject.has("nb_capteur"))
             this.nbCaptor = JObject.getInt("nb_capteur")
-
     }
 
 }
