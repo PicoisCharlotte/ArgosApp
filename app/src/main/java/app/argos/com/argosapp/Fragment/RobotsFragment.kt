@@ -1,5 +1,6 @@
 package app.argos.com.argosapp.Fragment
 
+import android.content.Intent
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -7,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import app.argos.com.argosapp.DetailRobotActivity
+import app.argos.com.argosapp.Interfaces.AdapterCallbackRobot
 import app.argos.com.argosapp.Model.Robot
 import app.argos.com.argosapp.Model.User
 import app.argos.com.argosapp.R
@@ -23,7 +26,7 @@ import java.net.URL
 /**
  * Created by charlotte on 06.05.2019.
  */
-class RobotsFragment : Fragment() {
+class RobotsFragment : Fragment(), AdapterCallbackRobot {
 
     lateinit var listRobot: MutableList<Robot>
     private val client = OkHttpClient()
@@ -39,7 +42,7 @@ class RobotsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mAdapter = RobotAdapter(context)
+        mAdapter = RobotAdapter(context, this)
         listRobot = mutableListOf<Robot>()
         linearLayoutManager = LinearLayoutManager(context)
     }
@@ -57,6 +60,18 @@ class RobotsFragment : Fragment() {
         mAdapter.setData(listRobot)
         mAdapter.notifyDataSetChanged()
         this.list_robots.adapter = mAdapter
+    }
+
+    override fun onClickItem(robot: Robot) {
+        activity?.let{
+            val intent = Intent (it, DetailRobotActivity::class.java)
+            intent.putExtra("id_robot", robot.idRobot)
+            intent.putExtra("id_user", robot.idUserRobot)
+            intent.putExtra("name", robot.name)
+            intent.putExtra("model", robot.model)
+            intent.putExtra("nb_capteur", robot.nbCaptor)
+            it.startActivity(intent)
+        }
     }
 
     fun sendGet() : MutableList<Robot> {
