@@ -15,7 +15,7 @@ class RobotAdapter(private val mContext: Context, private val mAdapterCallbackRo
 
     internal inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-    private var listRobots: List<Robot> = ArrayList()
+    private var listRobots: MutableList<Robot> = ArrayList()
     private lateinit var mListener: ItemClickCallback
     internal lateinit var inflater: LayoutInflater
 
@@ -24,9 +24,13 @@ class RobotAdapter(private val mContext: Context, private val mAdapterCallbackRo
         mListener = itemClickCallback
     }
 
-    fun setData(data: List<Robot>) {
+    fun setData(data: MutableList<Robot>) {
         listRobots = data
         notifyDataSetChanged()
+    }
+
+    fun addItem(item: Robot){
+        listRobots.add(item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

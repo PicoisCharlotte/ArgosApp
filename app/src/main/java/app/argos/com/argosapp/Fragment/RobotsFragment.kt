@@ -3,6 +3,7 @@ package app.argos.com.argosapp.Fragment
 import android.content.Intent
 import android.support.v4.app.Fragment
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -50,16 +51,11 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
     override fun onCreateView(inflater: LayoutInflater?, content: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
-
         return inflater!!.inflate(R.layout.fragment_robots, content, false)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        list_robots.layoutManager = linearLayoutManager
-        listRobot = sendGet()
-        mAdapter.setData(listRobot)
-        mAdapter.notifyDataSetChanged()
-        this.list_robots.adapter = mAdapter
+        reloadRobot()
     }
 
     override fun onClickItem(robot: Robot) {
@@ -72,6 +68,17 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
             intent.putExtra("nb_capteur", robot.nbCaptor)
             it.startActivity(intent)
         }
+    }
+
+    fun reloadRobot(){
+
+        list_robots.layoutManager = linearLayoutManager
+        this.list_robots.adapter = mAdapter
+        Handler().postDelayed({
+            listRobot = sendGet()
+            mAdapter.setData(listRobot)
+            mAdapter.notifyDataSetChanged()
+        }, 3000)
     }
 
     fun sendGet() : MutableList<Robot> {
