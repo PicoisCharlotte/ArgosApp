@@ -19,6 +19,8 @@ class RobotAdapter(private val mContext: Context, private val mAdapterCallbackRo
     private lateinit var mListener: ItemClickCallback
     internal lateinit var inflater: LayoutInflater
 
+    private var onClickListenerVideo: View.OnClickListener? = null
+
     interface ItemClickCallback { fun onItemClick(position: Int) }
     fun setOnItemClickListener(itemClickCallback: ItemClickCallback) {
         mListener = itemClickCallback
@@ -41,12 +43,15 @@ class RobotAdapter(private val mContext: Context, private val mAdapterCallbackRo
     }
 
     override fun onBindViewHolder(h: RecyclerView.ViewHolder, position: Int) {
+
+        onClickListenerVideo =  View.OnClickListener{ v -> mAdapterCallbackRobot.goToVideo(listRobots[position].idRobot) }
         h.itemView.setOnClickListener { mListener.onItemClick(h.adapterPosition) }
 
         val robot = listRobots[position]
         h.itemView.name.text = robot.name
         h.itemView.model.text = robot.model
         h.itemView.item.setOnClickListener{mAdapterCallbackRobot.onClickItem(robot)}
+        h.itemView.btn_go_to_video.setOnClickListener(onClickListenerVideo)
 
     }
 

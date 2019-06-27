@@ -70,6 +70,17 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
         }
     }
 
+    override fun goToVideo(idRobot: Int?) {
+        val videoViewFragment = VideoFragment.newInstance(idRobot!!)
+        openFragment(videoViewFragment)
+    }
+
+    private fun openFragment(fragment: Fragment) {
+        val transaction = fragmentManager.beginTransaction()
+        transaction.replace(R.id.content, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
     fun reloadRobot(){
 
         list_robots.layoutManager = linearLayoutManager
@@ -77,8 +88,7 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
         Handler().postDelayed({
             listRobot = sendGet()
             mAdapter.setData(listRobot)
-            mAdapter.notifyDataSetChanged()
-        }, 3000)
+        }, 5000)
     }
 
     fun sendGet() : MutableList<Robot> {
