@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import app.argos.com.argosapp.Fragment.HomeFragment
 import app.argos.com.argosapp.Fragment.RobotsFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -57,5 +58,9 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.content, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+    public fun maskTabBar(){
+        tabbar.visibility = View.GONE
     }
 }

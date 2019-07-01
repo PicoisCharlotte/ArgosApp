@@ -9,18 +9,25 @@ import kotlinx.android.synthetic.main.activity_connexion.*
 import java.net.HttpURLConnection
 import java.net.URL
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.support.compat.R.id.text
+import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import app.argos.com.argosapp.Model.User
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import kotlinx.android.synthetic.main.loading_indicator.*
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
+import com.wang.avi.AVLoadingIndicatorView
+import library.Outils
 
 
 class ConnexionActivity : AppCompatActivity() {
@@ -31,16 +38,23 @@ class ConnexionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_connexion)
         btn_connexion.setOnClickListener {
-            sendGet()
-        }
+            loading_indicator.visibility = View.VISIBLE
+            Handler().postDelayed({
+                sendGet()
+                if(loading_indicator != null)
+                    loading_indicator.visibility = View.INVISIBLE
+            }, 300)
 
+        }
+        close.setOnClickListener {
+            finish()
+        }
     }
 
     fun sendGet() {
         var urlString = "https://argosapi.herokuapp.com/user/select?action=selectAUser&credential="
         var logins = "[\"" + email.text + "\",\"" + password.text +"\"]"
         urlString += logins
-        var message = " "
         val url = URL(urlString)
         val request = Request.Builder()
                 .url(url)
@@ -48,7 +62,7 @@ class ConnexionActivity : AppCompatActivity() {
 
         val callApi = client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Toast.makeText(applicationContext, "FAIL", Toast.LENGTH_SHORT).show()
+
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -61,10 +75,10 @@ class ConnexionActivity : AppCompatActivity() {
                         try {
                             val Jobject = JSONObject(body)
 
+                            Handler(Looper.getMainLooper()).postDelayed({
 
-                            if (Jobject.getBoolean("success")) {
-                            } else {
-                            }
+                                Outils.showDialog(applicationContext, getString(R.string.erreur), getString(R.string.mdp_or_login_incorrect))
+                            }, 300)
                         } catch (e: JSONException) {
                             e.printStackTrace()
                         }
@@ -93,11 +107,14 @@ class ConnexionActivity : AppCompatActivity() {
                         }
 
                     }
+
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
             }
         })
     }
+
+
 
 }

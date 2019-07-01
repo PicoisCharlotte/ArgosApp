@@ -11,4 +11,7 @@
     <color name="white">#FFFFFF</color>
     <color name="gray">#efeff4</color>
     <color name="backgroundMain">#9924272c</color>
+
+    <color name="darkGray">#393939</color>
+    <color name="lightGray">#C2C2C6</color>
 </resources>

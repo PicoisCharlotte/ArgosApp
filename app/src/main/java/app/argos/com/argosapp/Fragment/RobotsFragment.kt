@@ -4,6 +4,8 @@ import android.content.Intent
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +17,11 @@ import app.argos.com.argosapp.Model.Robot
 import app.argos.com.argosapp.Model.User
 import app.argos.com.argosapp.R
 import app.argos.com.argosapp.Statics
+import app.argos.com.argosapp.VideoActivity
 import com.goot.gootdistri.Adapters.RobotAdapter
+import kotlinx.android.synthetic.main.activity_connexion.*
 import kotlinx.android.synthetic.main.fragment_robots.*
+import kotlinx.android.synthetic.main.fragment_robots.close
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -46,6 +51,8 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
         mAdapter = RobotAdapter(context, this)
         listRobot = mutableListOf<Robot>()
         linearLayoutManager = LinearLayoutManager(context)
+
+
     }
 
     override fun onCreateView(inflater: LayoutInflater?, content: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -55,8 +62,13 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        close.setOnClickListener {
+            getFragmentManager().popBackStack()
+        }
         reloadRobot()
     }
+
+
 
     override fun onClickItem(robot: Robot) {
         activity?.let{
@@ -71,8 +83,11 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
     }
 
     override fun goToVideo(idRobot: Int?) {
-        val videoViewFragment = VideoFragment.newInstance(idRobot!!)
-        openFragment(videoViewFragment)
+        activity?.let{
+            val intent = Intent (it, VideoActivity::class.java)
+            intent.putExtra("id_robot", idRobot)
+            it.startActivity(intent)
+        }
     }
 
     private fun openFragment(fragment: Fragment) {
@@ -83,12 +98,9 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
     }
     fun reloadRobot(){
 
-        list_robots.layoutManager = linearLayoutManager
+        list_robots.setLayoutManager(GridLayoutManager(context, 2));
         this.list_robots.adapter = mAdapter
-        Handler().postDelayed({
-            listRobot = sendGet()
-            mAdapter.setData(listRobot)
-        }, 5000)
+        sendGet()
     }
 
     fun sendGet() : MutableList<Robot> {
@@ -134,6 +146,12 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
                                 val robot = Robot(robotJSON)
                                 listRobot.add(robot)
                             }
+
+                            activity.runOnUiThread(java.lang.Runnable {
+                                mAdapter.setData(listRobot)
+                                mAdapter.notifyDataSetChanged()
+                            })
+
                         } catch (e: JSONException) {
                             e.printStackTrace()
                         }

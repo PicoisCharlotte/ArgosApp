@@ -45,7 +45,6 @@ class RobotAdapter(private val mContext: Context, private val mAdapterCallbackRo
     override fun onBindViewHolder(h: RecyclerView.ViewHolder, position: Int) {
 
         onClickListenerVideo =  View.OnClickListener{ v -> mAdapterCallbackRobot.goToVideo(listRobots[position].idRobot) }
-        h.itemView.setOnClickListener { mListener.onItemClick(h.adapterPosition) }
 
         val robot = listRobots[position]
         h.itemView.name.text = robot.name
