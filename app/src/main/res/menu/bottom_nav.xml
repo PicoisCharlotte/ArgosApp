@@ -11,5 +11,11 @@
         android:icon="@drawable/menu"
         android:title="@string/mesrobots"
         />
+    <item
+        android:id="@+id/connexion"
+        android:icon="@drawable/menu"
+        android:title="@string/connexion"
+        />
+
 
 </menu>

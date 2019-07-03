@@ -8,9 +8,8 @@
     <string name="action_settings">Settings</string>
 
     <string name="accueil">HOME</string>
-    <string name="connexion">Connexion</string>
-    <string name="deconnexion">Deconnexion</string>
-    <string name="monprofil">My profile</string>
+    <string name="connexion">CONNEXION</string>
+    <string name="deconnexion">DECONNEXION</string>
     <string name="mesrobots">MY ROBOTS</string>
 
     <string name="connexion_maj">CONNEXION</string>
