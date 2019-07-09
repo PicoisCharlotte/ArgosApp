@@ -5,6 +5,37 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.VideoFragment">
 
+    <FrameLayout
+        android:id="@+id/surfaceContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--<SurfaceView
+            android:id="@+id/video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />-->
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"/>
+       <!--<VideoView
+            android:id="@+id/video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />-->
+
+        <WebView
+            android:id="@+id/video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </WebView>
+
+    </FrameLayout>
+
+
 
     <ImageButton
         android:id="@+id/close"

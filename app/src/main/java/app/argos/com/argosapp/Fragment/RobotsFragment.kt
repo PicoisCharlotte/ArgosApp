@@ -3,7 +3,6 @@ package app.argos.com.argosapp.Fragment
 import android.content.Intent
 import android.support.v4.app.Fragment
 import android.os.Bundle
-import android.os.Handler
 import android.os.Looper
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -129,9 +128,6 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
                             val Jobject = JSONObject(body)
 
 
-                            if (Jobject.getBoolean("success")) {
-                            } else {
-                            }
                         } catch (e: JSONException) {
                             e.printStackTrace()
                         }
