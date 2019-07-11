@@ -38,4 +38,6 @@
     <string name="retour">Retour</string>
     <string name="mdp_or_login_incorrect">Le mot de passe ou le login est incorrect. Veuillez réessayez.</string>
     <string name="erreur">Erreur</string>
+    <string name="robot_eteint">Votre robot est éteint</string>
+    <string name="attention">Attention</string>
 </resources>

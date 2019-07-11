@@ -15,21 +15,26 @@ class User {
     var email: String? = null
     var cellphone: String? = null
 
-    constructor(id: Int?, email: String?, cellphone: String?){
+    public var isConnected: Boolean = false
+
+    constructor(id: Int?, email: String?, cellphone: String?, isConnected: Boolean){
         this.id = id
         this.email = email
         this.cellphone = cellphone
+        this.isConnected = isConnected
     }
 
     constructor()
 
-    constructor(JObject: JSONObject){
+    constructor(JObject: JSONObject, isConnected: Boolean){
         if(JObject.has("id_user"))
             this.id = JObject.getInt("id_user")
         if(JObject.has("email"))
             this.email = JObject.getString("email")
         if(JObject.has("cellphone"))
             this.cellphone = JObject.getString("cellphone")
+
+        this.isConnected = isConnected
 
     }
 

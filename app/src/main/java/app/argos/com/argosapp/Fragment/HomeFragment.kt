@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import app.argos.com.argosapp.Model.User
 import app.argos.com.argosapp.R
+import app.argos.com.argosapp.db.DBHelper
+import app.argos.com.argosapp.manager.MyUserManager
 import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
@@ -22,6 +24,9 @@ class HomeFragment : Fragment() {
     }
 
     var textUser = ""
+
+    var currentUser: User = User()
+    lateinit var mDatabase: DBHelper
 
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -38,7 +43,16 @@ class HomeFragment : Fragment() {
             user.setTextColor(Color.RED)
         }
 
+
         return inflater.inflate(R.layout.fragment_home, content, false)
 
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mDatabase = DBHelper(context)
+        val id = MyUserManager.newInstance(context).getIdUser()
+        if(id != 0 && id != null)
+            currentUser = mDatabase.getUser(id)
     }
 }

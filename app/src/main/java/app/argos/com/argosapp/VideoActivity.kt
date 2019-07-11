@@ -1,28 +1,15 @@
 package app.argos.com.argosapp
 
-import android.graphics.Point
-import android.media.AudioAttributes
+import android.app.Activity
 import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
-import android.view.Surface
-import android.view.SurfaceHolder
-import android.view.View.*
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.webkit.WebViewClient
-import android.widget.FrameLayout
-import android.widget.MediaController
+import android.webkit.*
 import android.widget.Toast
-import app.argos.com.argosapp.Fragment.VideoFragment
-import app.argos.com.argosapp.Model.Robot
-import app.argos.com.argosapp.Model.User
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_video.*
-import kotlinx.android.synthetic.main.fragment_video.*
 import kotlinx.android.synthetic.main.fragment_video.btn_down
 import kotlinx.android.synthetic.main.fragment_video.btn_left
 import kotlinx.android.synthetic.main.fragment_video.btn_right
@@ -30,20 +17,9 @@ import kotlinx.android.synthetic.main.fragment_video.btn_stop
 import kotlinx.android.synthetic.main.fragment_video.btn_up
 import kotlinx.android.synthetic.main.fragment_video.close
 import okhttp3.*
-import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
 import java.io.*
-import java.lang.IllegalArgumentException
-import java.lang.IllegalStateException
-import java.net.Socket
 import java.net.URL
-import java.security.KeyManagementException
-import java.security.NoSuchAlgorithmException
-import javax.net.ssl.KeyManager
-import javax.net.ssl.SSLContext
-import javax.net.ssl.SSLSocket
-import javax.net.ssl.TrustManager
 
 class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
     /*override fun surfaceDestroyed(holder: SurfaceHolder?) {
@@ -89,11 +65,8 @@ class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
     }
 
     companion object {
-        fun newInstance(idRobot: Int): VideoActivity {
-            val activity = VideoFragment()
-            val args = Bundle()
-            args.putInt("idRobot", idRobot)
-            activity.arguments = args
+        fun newInstance(): VideoActivity {
+            val activity = VideoActivity()
             return VideoActivity()
         }
     }
@@ -121,13 +94,18 @@ class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun createWebView(){
-        video.setWebViewClient(WebViewClient());
-        video.getSettings().setJavaScriptEnabled(true);
-        video.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        video.getSettings().setPluginState(WebSettings.PluginState.ON);
-        video.getSettings().setMediaPlaybackRequiresUserGesture(false);
-        video.setWebChromeClient(WebChromeClient());
-        video.loadUrl("http://0d14dceb.eu.ngrok.io");
+
+        video.setWebViewClient(WebViewClt(this))
+        video.getSettings().setJavaScriptEnabled(true)
+        video.getSettings().setJavaScriptCanOpenWindowsAutomatically(true)
+        video.getSettings().setPluginState(WebSettings.PluginState.ON)
+        video.getSettings().setMediaPlaybackRequiresUserGesture(false)
+        video.setWebChromeClient(WebChromeClient())
+        video.loadUrl(url)
+    }
+
+    public fun loadErrorPage(webView: WebView){
+
     }
 
     override fun onPause() {
@@ -281,4 +259,19 @@ class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
         })
 
     }
+    class WebViewClt internal constructor(private val activity: Activity) : WebViewClient() {
+
+        override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
+            if(this.activity.video!=null){
+
+                var htmlData ="<html><body><div align=\"center\" >This is the description for the load fail : "+this.activity.resources.getString(R.string.robot_eteint)+"\n</div></body>";
+
+                this.activity.video.loadUrl("about:blank");
+                this.activity.video.loadDataWithBaseURL(null,htmlData, "text/html", "UTF-8",null);
+                this.activity.video.invalidate();
+
+            }
+        }
+    }
+
 }

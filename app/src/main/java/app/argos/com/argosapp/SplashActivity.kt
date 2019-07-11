@@ -1,6 +1,7 @@
 package app.argos.com.argosapp
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -23,5 +24,12 @@ class SplashActivity : AppCompatActivity() {
         finish()
 
         loading_indicator.visibility = View.INVISIBLE
+    }
+
+    private fun setupSharePreferences(){
+        //val prefs = SharedPreferences
+        //val prefEditor = prefs.edit()
+        //prefEditor.putString("user")
+        //prefEditor.apply()
     }
 }

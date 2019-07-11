@@ -35,8 +35,6 @@
 
     </FrameLayout>
 
-
-
     <ImageButton
         android:id="@+id/close"
         android:layout_width="40dp"
@@ -45,6 +43,7 @@
         android:background="@android:color/transparent"
         android:padding="12dp"
         android:scaleType="fitCenter"
+        android:tint="@color/white"
         android:src="@drawable/close_black" />
 
     <LinearLayout

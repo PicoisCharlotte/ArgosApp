@@ -17,6 +17,7 @@ import app.argos.com.argosapp.Model.User
 import app.argos.com.argosapp.R
 import app.argos.com.argosapp.Statics
 import app.argos.com.argosapp.VideoActivity
+import app.argos.com.argosapp.manager.MyUserManager
 import com.goot.gootdistri.Adapters.RobotAdapter
 import kotlinx.android.synthetic.main.activity_connexion.*
 import kotlinx.android.synthetic.main.fragment_robots.*
@@ -67,8 +68,6 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
         reloadRobot()
     }
 
-
-
     override fun onClickItem(robot: Robot) {
         activity?.let{
             val intent = Intent (it, DetailRobotActivity::class.java)
@@ -104,13 +103,13 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
 
     fun sendGet() : MutableList<Robot> {
         var urlString = "https://argosapi.herokuapp.com/robot/select?action=selectWhereRobot&idUserRobot="
-        var idUserRobot = User.instance.id
+        var idUserRobot = MyUserManager.newInstance(context).getIdUser()
         urlString += idUserRobot
         var message = " "
         val url = URL(urlString)
         val request = Request.Builder()
                 .url(url)
-                .addHeader("access-token", Statics.API_TOKEN)
+                .addHeader("access-token", MyUserManager.newInstance(context).getApiToken())
                 .build()
 
         val callApi = client.newCall(request).enqueue(object : Callback {

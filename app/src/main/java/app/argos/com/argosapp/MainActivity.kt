@@ -2,7 +2,6 @@ package app.argos.com.argosapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -10,9 +9,10 @@ import android.util.Log
 import android.view.View
 import app.argos.com.argosapp.Fragment.HomeFragment
 import app.argos.com.argosapp.Fragment.RobotsFragment
+import app.argos.com.argosapp.Model.User
+import app.argos.com.argosapp.manager.MyUserManager
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
-import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.accueil -> {
-                if(Statics.IS_CONNECTED) {
+                if(MyUserManager.newInstance(this).isUserConnected()) {
                     val homeFragment = HomeFragment.newInstance()
                     openFragment(homeFragment)
                 } else {
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.robots -> {
-                if(Statics.IS_CONNECTED) {
+                if(MyUserManager.newInstance(this).isUserConnected()) {
                     val robotsFragment = RobotsFragment.newInstance()
                     openFragment(robotsFragment)
                 } else {
@@ -43,14 +43,16 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.connexion -> {
-
                 val connexion = tabbar.menu.findItem(R.id.connexion)
-                if (Statics.IS_CONNECTED) {
+                if (MyUserManager.newInstance(this).isUserConnected()) {
                     connexion.setTitle(resources.getString(R.string.connexion))
-                    Statics.IS_CONNECTED = false;
                     val intent = Intent(this, ConnexionActivity::class.java)
+                    MyUserManager.newInstance(this).connectUser(false)
+                    MyUserManager.newInstance(this).setLastUser(0)
+                    MyUserManager.newInstance(this).setCurrentUser(0, null, null, false)
                     startActivity(intent)
                 } else {
+                    connexion.setTitle(resources.getString(R.string.deconnexion))
                     val intent = Intent(this, ConnexionActivity::class.java)
                     startActivity(intent)
                 }
@@ -63,24 +65,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        /*val isConnected = savedInstanceState?.get("statics")
-        if(isConnected != null){
-            Statics.IS_CONNECTED = isConnected as Boolean
+        val userManager = MyUserManager(this)
+
+        if(savedInstanceState != null){
+            User.instance.isConnected = savedInstanceState.getBoolean("isConnected")
+            Log.v("MaineActivity", "is co ! 2 " + User.instance.isConnected)
         }
-        Log.d("MainAct", "RESTOOOOOORE !!!!!!! ")*/
+
+        Log.v("MaineActivity", "is co ! " + User.instance.isConnected)
 
         this.tabbar.setOnNavigationItemSelectedListener (mOnNavigationItemSelectedListener)
 
         val homeFragment = HomeFragment.newInstance()
         openFragment(homeFragment)
 
+        if(MyUserManager.newInstance(this@MainActivity).getLastUser() == null)
+            MyUserManager.newInstance(this).setLastUser(0)
 
         val connexion = tabbar.menu.findItem(R.id.connexion)
-        if (Statics.IS_CONNECTED) {
+        if (MyUserManager.newInstance(this).isUserConnected()) {
             connexion.setTitle(resources.getString(R.string.deconnexion))
         } else {
             connexion.setTitle(resources.getString(R.string.connexion))
         }
+
     }
 
     /*public override fun onSaveInstanceState(): Parcelable? {
@@ -100,13 +108,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle?){
         super.onSaveInstanceState(outState)
-        outState?.putCharSequence("statics", Statics.IS_CONNECTED.toString())
-        Log.d("MainAct", "ON SAVED INSTANCE !! ")
-    }
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        super.onRestoreInstanceState(savedInstanceState)
-        Statics.IS_CONNECTED = savedInstanceState?.get("statics") as Boolean
-        Log.d("MainAct", "RESTOOOOOORE !!!!!!! ")
+        outState?.putBoolean("isConnected", User.instance.isConnected)
+
+        Log.v("MaineActivity", "is co ! 3 " + User.instance.isConnected)
     }
 
     private fun openFragment(fragment: Fragment) {

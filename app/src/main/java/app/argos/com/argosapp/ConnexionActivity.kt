@@ -1,38 +1,31 @@
 package app.argos.com.argosapp
 
-import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 
 import kotlinx.android.synthetic.main.activity_connexion.*
-import java.net.HttpURLConnection
 import java.net.URL
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import android.support.compat.R.id.text
-import android.support.v7.app.AlertDialog
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import app.argos.com.argosapp.Model.User
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonObject
+import app.argos.com.argosapp.db.DBHelper
+import app.argos.com.argosapp.manager.MyUserManager
 import kotlinx.android.synthetic.main.loading_indicator.*
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
-import com.wang.avi.AVLoadingIndicatorView
 import library.Outils
 
 
 class ConnexionActivity : AppCompatActivity() {
 
     private val client = OkHttpClient()
+
+    var mDatabase: DBHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,11 +34,10 @@ class ConnexionActivity : AppCompatActivity() {
             loading_indicator.visibility = View.VISIBLE
             Handler().postDelayed({
                 sendGet()
-                if(loading_indicator != null)
-                    loading_indicator.visibility = View.INVISIBLE
             }, 300)
 
         }
+        mDatabase = DBHelper(this)
         close.setOnClickListener {
             finish()
         }
@@ -66,7 +58,7 @@ class ConnexionActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                Statics.IS_CONNECTED = true;
+                //userManager.connectUser(true)
                 var body = response?.body()?.string()
 
                 try {
@@ -92,14 +84,23 @@ class ConnexionActivity : AppCompatActivity() {
                             if (Jobject.getString("data") != null && !Jobject.getString("data").equals("")) {
                                 val userJSONArray = JSONArray(Jobject.getString("data"))
                                 val userJSON = JSONObject(userJSONArray.get(0).toString())
-                                val user = User(userJSON)
+                                val user = User(userJSON, true)
                                 User.instance.id = user.id
                                 User.instance.email = user.email
                                 User.instance.cellphone = user.cellphone
+                                //mDatabase!!.addUser(user)
+                                MyUserManager.newInstance(this@ConnexionActivity).connectUser(true)
+                                user.id?.let { MyUserManager.newInstance(this@ConnexionActivity).setIdUser(it) }
+                                user.id?.let { MyUserManager.newInstance(this@ConnexionActivity).setCurrentUser(it, user.email, user.cellphone, true) }
                             }
                             if(Jobject.getString("token") != null && !Jobject.getString("token").equals("")){
-                                Statics.API_TOKEN = Jobject.getString("token")
+                                MyUserManager.newInstance(this@ConnexionActivity).setApiToken(Jobject.getString("token"))
                             }
+
+                            this@ConnexionActivity.runOnUiThread(java.lang.Runnable{
+                                if(loading_indicator != null)
+                                    loading_indicator.visibility = View.INVISIBLE
+                            })
 
                             applicationContext.startActivity(Intent(applicationContext, MainActivity::class.java))
                         } catch (e: JSONException) {
