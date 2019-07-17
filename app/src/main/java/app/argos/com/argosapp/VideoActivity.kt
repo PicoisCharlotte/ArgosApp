@@ -22,19 +22,6 @@ import java.io.*
 import java.net.URL
 
 class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
-    /*override fun surfaceDestroyed(holder: SurfaceHolder?) {
-
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun surfaceCreated(holder: SurfaceHolder) {
-        val surface = holder.surface
-        setupMediaPlayer(surface)
-        prepareMediaPlayer()
-    }
-
-    override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
-    }*/
 
     var id_robot = 0
     private val client = OkHttpClient()
@@ -51,17 +38,11 @@ class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
         if(intent != null)
             id_robot = intent.getIntExtra("id_robot", 0)
 
-        //clientGetVideo.sslSocketFactory()
-
         close.setOnClickListener {
             finish()
         }
         setOnClicks()
         createWebView()
-        //setupMediaController();
-
-        /*val holder = video.holder
-        holder.addCallback(this)*/
     }
 
     companion object {
@@ -71,127 +52,19 @@ class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
         }
     }
 
-    /*private fun setupMediaController(){
-        progressBar.visibility = VISIBLE
-        try {
-            val mediaController = MediaController(this@VideoActivity)
-            mediaController.setAnchorView(video)
-            var uri = Uri.parse(url)
-            video.setMediaController(mediaController)
-            video.setVideoURI(uri)
-        } catch(e: Exception){
-            e.printStackTrace()
-        }
-
-        video.requestFocus()
-        video.setOnPreparedListener (MediaPlayer.OnPreparedListener {
-            fun onPrepare(mp: MediaPlayer){
-                progressBar.visibility = INVISIBLE
-                video.start()
-            }
-        })
-    }*/
-
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun createWebView(){
-
         video.setWebViewClient(WebViewClt(this))
         video.getSettings().setJavaScriptEnabled(true)
         video.getSettings().setJavaScriptCanOpenWindowsAutomatically(true)
         video.getSettings().setPluginState(WebSettings.PluginState.ON)
         video.getSettings().setMediaPlaybackRequiresUserGesture(false)
-        video.setWebChromeClient(WebChromeClient())
         video.loadUrl(url)
     }
 
     public fun loadErrorPage(webView: WebView){
 
     }
-
-    override fun onPause() {
-        super.onPause()
-        playbackPostition = mediaPlayer.currentPosition
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mediaPlayer.stop()
-        mediaPlayer.release()
-    }
-
-    /*@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun createAudioAttributes(): AudioAttributes{
-        val builder = AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)
-        return builder.build()
-
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun setupMediaPlayer(surface: Surface){
-        progressBar.visibility = VISIBLE
-        mediaPlayer = MediaPlayer()
-        mediaPlayer.setSurface(surface)
-        val audioAttributes = createAudioAttributes()
-        mediaPlayer.setAudioAttributes(audioAttributes)
-        val uri = Uri.parse(url)
-        try {
-            mediaPlayer.setDataSource(this, uri)
-        } catch(e: IllegalArgumentException){
-            e.printStackTrace()
-
-        }
-    }
-
-    private fun prepareMediaPlayer(){
-        try {
-            mediaPlayer.prepareAsync()
-        } catch(e: IllegalStateException){
-            e.printStackTrace()
-        }
-        mediaPlayer.setOnPreparedListener {
-            progressBar.visibility = INVISIBLE
-            mediaPlayer.seekTo(playbackPostition)
-            mediaPlayer.start()
-        }
-        mediaPlayer.setOnVideoSizeChangedListener { player, width, height ->
-            setSurfaceDimensions(player, width, height)
-        }
-    }
-
-    private fun setSurfaceDimensions(player: MediaPlayer, width: Int, height: Int){
-        if(width > 0 && height > 0){
-            val screenDimensions = Point()
-            windowManager.defaultDisplay.getSize(screenDimensions)
-            val surfaceWidth = screenDimensions.x
-            val surfaceHeight = screenDimensions.y
-            val params = FrameLayout.LayoutParams(surfaceWidth, surfaceHeight)
-            video.layoutParams = params
-            /*val holder = video.holder
-            player.setDisplay(holder)*/
-        }
-    }*/
-
-    /*private val TLS_PROTOCOLS = arrayOf("TLSv1.1", "TLSv1.2")
-
-    @Throws(KeyManagementException::class, NoSuchAlgorithmException::class)
-    fun MySSLSocketFactory(keyManagers: Array<KeyManager>, trustManager: TrustManager){
-        val sslContext = SSLContext.getInstance(TLS)
-        sslContext.init(keyManagers, TrustManager[]{ trustManager }, null)
-        sslContext.getSocketFactory();
-        sslContext.init(keyManagers, arrayOf<TrustManager>(trustManager), null)
-        // ...
-    }
-
-// ...
-
-    private fun enableTLSOnSocket(socket: Socket): Socket {
-        if (socket is SSLSocket) {
-            (socket as SSLSocket).setEnabledProtocols(TLS_PROTOCOLS)
-        }
-        return socket
-    }*/
 
     fun setOnClicks(){
 
@@ -242,19 +115,7 @@ class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                var body = response?.body()?.string()
 
-                try {
-                    if (!response.isSuccessful) {
-
-
-                    } else {
-
-
-                    }
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
             }
         })
 
@@ -262,15 +123,7 @@ class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
     class WebViewClt internal constructor(private val activity: Activity) : WebViewClient() {
 
         override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
-            if(this.activity.video!=null){
-
-                var htmlData ="<html><body><div align=\"center\" >This is the description for the load fail : "+this.activity.resources.getString(R.string.robot_eteint)+"\n</div></body>";
-
-                this.activity.video.loadUrl("about:blank");
-                this.activity.video.loadDataWithBaseURL(null,htmlData, "text/html", "UTF-8",null);
-                this.activity.video.invalidate();
-
-            }
+            activity.video.loadUrl("file:///assets/error.html");
         }
     }
 

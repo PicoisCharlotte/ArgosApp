@@ -54,12 +54,12 @@
             android:layout_marginBottom="15dp"/>
 
         <Button
-            android:id="@+id/btn_mot_de_passe_"
+            android:id="@+id/btn_inscription"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="15dp"
             android:gravity="right"
-            android:text="@string/motdepasseoublie"
+            android:text="@string/misncrire"
             android:textColor="@color/white"
             android:background="@android:color/transparent" />
 
@@ -93,8 +93,6 @@
                 android:hint="@string/motdepasse"
                 android:inputType="textPassword" />
         </LinearLayout>
-
-
 
         <Button
             android:id="@+id/btn_connexion"

@@ -16,6 +16,7 @@
     <string name="monprofil_maj">MY PROFIL</string>
     <string name="mesrobots_maj">MY ROBOTS</string>
     <string name="addrobot_maj">ADD ROBOT</string>
+    <string name="inscription_maj">INSCRIPTION</string>
     <string name="characteristic_maj">CHARACTERISTIC</string>
 
     <string name="motdepasse">Mot de passe</string>
@@ -23,6 +24,7 @@
     <string name="motdepasseoublie">Mot de passe oublié ?</string>
     <string name="misncrire">M\'inscrire</string>
     <string name="meconnecter">Connexion</string>
+    <string name="add_robot">Ajouter un robot</string>
     <string name="add">Add</string>
     <string name="name">Name</string>
     <string name="model">Model</string>

@@ -30,6 +30,10 @@ class ConnexionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_connexion)
+
+        btn_inscription.setOnClickListener{
+            applicationContext.startActivity(Intent(applicationContext, InscriptionActivity::class.java))
+        }
         btn_connexion.setOnClickListener {
             loading_indicator.visibility = View.VISIBLE
             Handler().postDelayed({
@@ -44,7 +48,7 @@ class ConnexionActivity : AppCompatActivity() {
     }
 
     fun sendGet() {
-        var urlString = "https://argosapi.herokuapp.com/user/select?action=selectAUser&credential="
+        var urlString = "https://argosapi.herokuapp.com/user/select?credential="
         var logins = "[\"" + email.text + "\",\"" + password.text +"\"]"
         urlString += logins
         val url = URL(urlString)
@@ -91,31 +95,21 @@ class ConnexionActivity : AppCompatActivity() {
                                 //mDatabase!!.addUser(user)
                                 MyUserManager.newInstance(this@ConnexionActivity).connectUser(true)
                                 user.id?.let { MyUserManager.newInstance(this@ConnexionActivity).setIdUser(it) }
-                                user.id?.let { MyUserManager.newInstance(this@ConnexionActivity).setCurrentUser(it, user.email, user.cellphone, true) }
-                            }
-                            if(Jobject.getString("token") != null && !Jobject.getString("token").equals("")){
-                                MyUserManager.newInstance(this@ConnexionActivity).setApiToken(Jobject.getString("token"))
                             }
 
                             this@ConnexionActivity.runOnUiThread(java.lang.Runnable{
                                 if(loading_indicator != null)
                                     loading_indicator.visibility = View.INVISIBLE
                             })
-
                             applicationContext.startActivity(Intent(applicationContext, MainActivity::class.java))
                         } catch (e: JSONException) {
                             e.printStackTrace()
                         }
-
                     }
-
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
             }
         })
     }
-
-
-
 }

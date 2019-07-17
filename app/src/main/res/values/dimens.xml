@@ -8,5 +8,6 @@
 
 
     <dimen name="liseret">0.8dp</dimen>
+    <dimen name="liseret_robot">8dp</dimen>
 
 </resources>

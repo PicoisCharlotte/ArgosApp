@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                     val intent = Intent(this, ConnexionActivity::class.java)
                     MyUserManager.newInstance(this).connectUser(false)
                     MyUserManager.newInstance(this).setLastUser(0)
-                    MyUserManager.newInstance(this).setCurrentUser(0, null, null, false)
+                    MyUserManager.newInstance(this).setIdUser(0)
                     startActivity(intent)
                 } else {
                     connexion.setTitle(resources.getString(R.string.deconnexion))

@@ -6,17 +6,15 @@ import android.os.Bundle
 import android.os.Looper
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import app.argos.com.argosapp.DetailRobotActivity
+import app.argos.com.argosapp.*
 import app.argos.com.argosapp.Interfaces.AdapterCallbackRobot
 import app.argos.com.argosapp.Model.Robot
 import app.argos.com.argosapp.Model.User
-import app.argos.com.argosapp.R
-import app.argos.com.argosapp.Statics
-import app.argos.com.argosapp.VideoActivity
 import app.argos.com.argosapp.manager.MyUserManager
 import com.goot.gootdistri.Adapters.RobotAdapter
 import kotlinx.android.synthetic.main.activity_connexion.*
@@ -40,7 +38,6 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
     private lateinit var linearLayoutManager: LinearLayoutManager
 
     companion object {
-
         fun newInstance(): RobotsFragment {
             return RobotsFragment()
         }
@@ -51,8 +48,6 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
         mAdapter = RobotAdapter(context, this)
         listRobot = mutableListOf<Robot>()
         linearLayoutManager = LinearLayoutManager(context)
-
-
     }
 
     override fun onCreateView(inflater: LayoutInflater?, content: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -64,6 +59,10 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
 
         close.setOnClickListener {
             getFragmentManager().popBackStack()
+        }
+        btn_robot.setOnClickListener{
+            val intent = Intent(context, AddRobotActivity::class.java)
+            startActivity(intent)
         }
         reloadRobot()
     }
@@ -94,17 +93,18 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
         transaction.addToBackStack(null)
         transaction.commit()
     }
-    fun reloadRobot(){
 
-        list_robots.setLayoutManager(GridLayoutManager(context, 2));
+    fun reloadRobot(){
+        list_robots.setLayoutManager(GridLayoutManager(context, 2) as RecyclerView.LayoutManager?);
         this.list_robots.adapter = mAdapter
         sendGet()
     }
 
     fun sendGet() : MutableList<Robot> {
-        var urlString = "https://argosapi.herokuapp.com/robot/select?action=selectWhereRobot&idUserRobot="
+        var urlString = "https://argosapi.herokuapp.com/robot/select/"
         var idUserRobot = MyUserManager.newInstance(context).getIdUser()
         urlString += idUserRobot
+        urlString += "?"
         var message = " "
         val url = URL(urlString)
         val request = Request.Builder()

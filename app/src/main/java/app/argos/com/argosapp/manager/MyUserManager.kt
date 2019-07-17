@@ -15,8 +15,6 @@ class MyUserManager(context: Context) {
     val LAST_USER_ID: String = "lastIdUser"
     val API_TOKEN: String = "apiToken"
 
-    var test: Int = 0
-
     companion object {
         fun newInstance(contextInstance: Context): MyUserManager {
             return MyUserManager(contextInstance)
@@ -26,26 +24,13 @@ class MyUserManager(context: Context) {
     fun setIdUser(id: Int){
         settings!!.edit().putInt(ID_USER, id).apply()
     }
-
     fun getIdUser(): Int {
         return settings!!.getInt(ID_USER, 0)
     }
 
-    fun setCurrentUser(id: Int, email: String?, cellPhone: String?, isConnected: Boolean){
-        settings!!.edit().putInt(ID_USER, id).apply()
-        currentUser.id = id
-        currentUser.email = email
-        currentUser.cellphone = cellPhone
-        currentUser.isConnected = isConnected
+    public fun getLastUser(): Int {
+        return settings!!.getInt(LAST_USER_ID, 0)
     }
-
-    public fun getLastUser(): Int{
-        if(settings != null)
-            return settings!!.getInt(LAST_USER_ID, 0)
-        else
-            return 0
-    }
-
     public fun setLastUser(id: Int){
         settings!!.edit().putInt(LAST_USER_ID, id).apply()
     }
@@ -53,7 +38,6 @@ class MyUserManager(context: Context) {
     public fun connectUser(isConnected: Boolean){
         settings!!.edit().putBoolean(IS_CONNECTED, isConnected).apply()
     }
-
     public fun isUserConnected(): Boolean{
         return settings!!.getBoolean(IS_CONNECTED, false)
     }
