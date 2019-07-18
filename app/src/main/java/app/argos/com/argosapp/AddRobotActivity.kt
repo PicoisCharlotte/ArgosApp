@@ -1,8 +1,7 @@
 package app.argos.com.argosapp
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import app.argos.com.argosapp.Fragment.RobotsFragment
 import app.argos.com.argosapp.manager.MyUserManager
 import kotlinx.android.synthetic.main.activity_add_robot.*

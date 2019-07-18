@@ -2,10 +2,10 @@ package app.argos.com.argosapp.Fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import app.argos.com.argosapp.Model.User
 import app.argos.com.argosapp.R
 import app.argos.com.argosapp.db.DBHelper
@@ -43,30 +43,25 @@ class HomeFragment : Fragment() {
         else
             textUser = "You should connect to access the application contents !"
 
-        if(user != null) {
-            user.setText(textUser)
-            user.setTextColor(Color.RED)
-        }
-
         return inflater.inflate(R.layout.fragment_home, content, false)
 
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mDatabase = DBHelper(context)
-        val id = MyUserManager.newInstance(context).getIdUser()
-        if(MyUserManager.newInstance(context).getIdUser() > 0)
+        mDatabase = DBHelper(requireContext())
+        val id = MyUserManager.newInstance(requireContext()).getIdUser()
+        if(MyUserManager.newInstance(requireContext()).getIdUser() > 0)
             getToken()
     }
 
     private fun getToken(){
         var urlString = "https://argosapi.herokuapp.com/tokenUser/select/"
-        urlString += MyUserManager.newInstance(context).getIdUser().toString()
+        urlString += MyUserManager.newInstance(requireContext()).getIdUser().toString()
         val url = URL(urlString)
         val request = Request.Builder()
                 .url(url)
-                .addHeader("access-token", MyUserManager.newInstance(context).getApiToken())
+                .addHeader("access-token", MyUserManager.newInstance(requireContext()).getApiToken())
                 .build()
 
         val callApi = client.newCall(request).enqueue(object : Callback {
@@ -79,7 +74,7 @@ class HomeFragment : Fragment() {
                 try {
                     val Jobject = JSONObject(body)
                     if(Jobject.has("token"))
-                        MyUserManager.newInstance(context).setApiToken(Jobject.getString("token"))
+                        MyUserManager.newInstance(requireContext()).setApiToken(Jobject.getString("token"))
 
                 } catch (e: JSONException) {
                     e.printStackTrace()

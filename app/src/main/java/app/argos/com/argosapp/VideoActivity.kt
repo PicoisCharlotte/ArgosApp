@@ -3,11 +3,11 @@ package app.argos.com.argosapp
 import android.app.Activity
 import android.media.MediaPlayer
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.webkit.*
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_video.*
 import kotlinx.android.synthetic.main.fragment_video.btn_down
@@ -28,7 +28,7 @@ class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
     var json = JsonObject()
     private lateinit var mediaPlayer: MediaPlayer
     private var playbackPostition = 0
-    private val url = "http://0d14dceb.eu.ngrok.io"
+    private val url = "http://argos.eu.ngrok.io/"
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onCreate(savedInstanceState: Bundle?) {

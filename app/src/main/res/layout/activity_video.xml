@@ -55,45 +55,45 @@
 
         <ImageButton
             android:id="@+id/btn_up"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:background="@drawable/background_directions"
-            android:layout_marginLeft="55dp"/>
+            android:layout_marginLeft="80dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/btn_left"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:background="@drawable/background_directions"/>
 
             <ImageButton
                 android:id="@+id/btn_stop"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/background_stop"
                 android:src="@drawable/stop"/>
 
             <ImageButton
                 android:id="@+id/btn_right"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:background="@drawable/background_directions"/>
 
         </LinearLayout>
         <ImageButton
             android:id="@+id/btn_down"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="55dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="80dp"
             android:background="@drawable/background_directions"/>
     </LinearLayout>
 

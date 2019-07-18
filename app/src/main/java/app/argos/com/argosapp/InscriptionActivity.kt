@@ -1,9 +1,9 @@
 package app.argos.com.argosapp
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import app.argos.com.argosapp.manager.MyUserManager
 import kotlinx.android.synthetic.main.activity_inscription.*
 import okhttp3.*

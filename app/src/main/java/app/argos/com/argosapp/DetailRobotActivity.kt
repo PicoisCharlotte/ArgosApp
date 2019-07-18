@@ -2,8 +2,8 @@ package app.argos.com.argosapp
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import app.argos.com.argosapp.Fragment.RobotsFragment
 import app.argos.com.argosapp.Model.Robot
 import kotlinx.android.synthetic.main.activity_detail_robot.*

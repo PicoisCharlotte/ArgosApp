@@ -1,7 +1,6 @@
 package app.argos.com.argosapp
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 
 import kotlinx.android.synthetic.main.activity_connexion.*
 import java.net.URL
@@ -9,6 +8,7 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import app.argos.com.argosapp.Model.User
 import app.argos.com.argosapp.db.DBHelper
 import app.argos.com.argosapp.manager.MyUserManager

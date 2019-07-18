@@ -15,11 +15,6 @@
             android:tint="@color/backgroundMain"
             android:src="@drawable/background"
             android:scaleType="fitXY" />
-        <TextView
-            android:id="@+id/user"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="default"/>
     </RelativeLayout>
 
 
