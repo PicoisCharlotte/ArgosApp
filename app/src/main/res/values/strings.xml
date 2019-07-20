@@ -42,4 +42,14 @@
     <string name="erreur">Erreur</string>
     <string name="robot_eteint">Votre robot est éteint</string>
     <string name="attention">Attention</string>
+
+
+
+
+    <string name="firebase_cloud_messaging_token">firebase_cloud_messaging_token</string>
+    <string name="user_id">user_id</string>
+
+    <string name="title_notification">"Attention</string>
+    <string name="body_notification">Votre robot a détecté quelque chose</string>
+    <string name="msg_token_fmt">Token retrieved and sent to server!</string>
 </resources>

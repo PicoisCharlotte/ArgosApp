@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:555225993327:android:0cbce70d452718c4",
+        "mobilesdk_app_id": "1:555225993327:android:bb870f30950071ea",
         "android_client_info": {
-          "package_name": "com.app.argos"
+          "package_name": "app.argos.com.argosapp"
         }
       },
       "oauth_client": [

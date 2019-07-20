@@ -42,6 +42,13 @@ class MyUserManager(context: Context) {
         return settings!!.getBoolean(IS_CONNECTED, false)
     }
 
+    public fun getFirebaseToken(): String{
+        return settings!!.getString("fcm_token", "empty")
+    }
+    public fun setFirebaseToken(token: String){
+        settings!!.edit().putString("fcm_token", token).apply()
+    }
+
     public fun getApiToken(): String{
         return settings!!.getString(API_TOKEN, "")
     }
