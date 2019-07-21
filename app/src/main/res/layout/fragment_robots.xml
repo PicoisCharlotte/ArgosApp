@@ -30,7 +30,7 @@
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/background_button"
+                android:background="@drawable/btn_background"
                 android:text="@string/add_robot"
                 android:textColor="@android:color/white"
                 android:layout_alignParentRight="true"/>
@@ -69,6 +69,6 @@
 
     </LinearLayout>
 
-    <include layout="@layout/loading_indicator" />
+    <include android:id="@+id/loading_indicator" layout="@layout/loading_indicator" />
 
 </RelativeLayout>

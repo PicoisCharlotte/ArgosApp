@@ -4,6 +4,7 @@ import android.app.Activity
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.webkit.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -20,6 +21,11 @@ import okhttp3.*
 import org.json.JSONObject
 import java.io.*
 import java.net.URL
+import android.R.interpolator.bounce
+import android.view.animation.AnimationUtils.loadAnimation
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+
 
 class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
 
@@ -29,6 +35,7 @@ class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
     private lateinit var mediaPlayer: MediaPlayer
     private var playbackPostition = 0
     private val url = "http://argos.eu.ngrok.io/"
+
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,12 +61,16 @@ class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun createWebView(){
+
+        loading_indicator.visibility = View.VISIBLE
         video.setWebViewClient(WebViewClt(this))
         video.getSettings().setJavaScriptEnabled(true)
         video.getSettings().setJavaScriptCanOpenWindowsAutomatically(true)
         video.getSettings().setPluginState(WebSettings.PluginState.ON)
         video.getSettings().setMediaPlaybackRequiresUserGesture(false)
         video.loadUrl(url)
+
+        loading_indicator.visibility = View.GONE
     }
 
     public fun loadErrorPage(webView: WebView){
@@ -70,23 +81,37 @@ class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
 
         btn_up.setOnClickListener {
             val data = 5
-            postRequest(data);
+            Toast.makeText(this, "Avance", Toast.LENGTH_SHORT).show()
+            val myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce)
+            btn_up.startAnimation(myAnim)
+            postRequest(data)
         }
         btn_left.setOnClickListener {
             val data = 8
-            postRequest(data);
+            Toast.makeText(this, "Tourne à gauche", Toast.LENGTH_SHORT).show()
+            val myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce)
+            btn_left.startAnimation(myAnim)
+            postRequest(data)
         }
         btn_stop.setOnClickListener {
             val data = 6
-            postRequest(data);
+            Toast.makeText(this, "Stop", Toast.LENGTH_SHORT).show()
+            btn_stop.animate().rotation(btn_stop.rotation -360).start()
+            postRequest(data)
         }
         btn_right.setOnClickListener {
             val data = 10
-            postRequest(data);
+            Toast.makeText(this, "Tourne à droite", Toast.LENGTH_SHORT).show()
+            val myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce)
+            btn_right.startAnimation(myAnim)
+            postRequest(data)
         }
         btn_down.setOnClickListener {
             val data = 13
-            postRequest(data);
+            Toast.makeText(this, "Recule", Toast.LENGTH_SHORT).show()
+            val myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce)
+            btn_down.startAnimation(myAnim)
+            postRequest(data)
         }
     }
 
@@ -107,7 +132,6 @@ class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
                 .addHeader("X-AIO-Key", Statics.ADAFRUIT_KEY)
                 .build()
 
-        Toast.makeText(this, "DATA -> " + data, Toast.LENGTH_SHORT).show()
 
         val call = client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -123,7 +147,7 @@ class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
     class WebViewClt internal constructor(private val activity: Activity) : WebViewClient() {
 
         override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
-            activity.video.loadUrl("file:///assets/error.html");
+            activity.video.loadUrl("file:///assets/error.html")
         }
     }
 

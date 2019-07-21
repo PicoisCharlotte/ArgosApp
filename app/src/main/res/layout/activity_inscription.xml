@@ -103,7 +103,7 @@
             android:layout_below="@+id/formulaire"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/background_button"
+            android:background="@drawable/btn_background"
             android:layout_gravity="center_horizontal"
             android:text="@string/misncrire"
             android:textColor="@android:color/white"/>

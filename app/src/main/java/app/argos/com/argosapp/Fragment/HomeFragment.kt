@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import app.argos.com.argosapp.Model.User
 import app.argos.com.argosapp.R
-import app.argos.com.argosapp.db.DBHelper
 import app.argos.com.argosapp.manager.MyUserManager
 import kotlinx.android.synthetic.main.fragment_home.*
 import okhttp3.*
@@ -32,8 +31,6 @@ class HomeFragment : Fragment() {
 
     var textUser = ""
 
-    lateinit var mDatabase: DBHelper
-
     override fun onCreateView(inflater: LayoutInflater,
                               content: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -49,7 +46,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mDatabase = DBHelper(requireContext())
         val id = MyUserManager.newInstance(requireContext()).getIdUser()
         if(MyUserManager.newInstance(requireContext()).getIdUser() > 0)
             getToken()

@@ -10,7 +10,6 @@ import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import app.argos.com.argosapp.Model.User
-import app.argos.com.argosapp.db.DBHelper
 import app.argos.com.argosapp.manager.MyUserManager
 import kotlinx.android.synthetic.main.loading_indicator.*
 import okhttp3.*
@@ -24,8 +23,6 @@ import library.Outils
 class ConnexionActivity : AppCompatActivity() {
 
     private val client = OkHttpClient()
-
-    var mDatabase: DBHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +38,6 @@ class ConnexionActivity : AppCompatActivity() {
             }, 300)
 
         }
-        mDatabase = DBHelper(this)
         close.setOnClickListener {
             finish()
         }
@@ -92,7 +88,6 @@ class ConnexionActivity : AppCompatActivity() {
                                 User.instance.id = user.id
                                 User.instance.email = user.email
                                 User.instance.cellphone = user.cellphone
-                                //mDatabase!!.addUser(user)
                                 MyUserManager.newInstance(this@ConnexionActivity).connectUser(true)
                                 user.id?.let { MyUserManager.newInstance(this@ConnexionActivity).setIdUser(it) }
                             }

@@ -92,6 +92,7 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
     }
 
     fun reloadRobot(){
+        loading_indicator.visibility = View.VISIBLE
         list_robots?.setLayoutManager(GridLayoutManager(context, 2) as RecyclerView.LayoutManager)
         list_robots?.adapter = mAdapter
         sendGet()
@@ -140,6 +141,8 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
                             }
 
                             activity?.runOnUiThread(java.lang.Runnable {
+
+                                loading_indicator.visibility = View.INVISIBLE
                                 mAdapter.setData(listRobot)
                                 mAdapter.notifyDataSetChanged()
                             })
