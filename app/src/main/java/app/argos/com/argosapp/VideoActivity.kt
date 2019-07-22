@@ -22,9 +22,13 @@ import org.json.JSONObject
 import java.io.*
 import java.net.URL
 import android.R.interpolator.bounce
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.os.Environment
 import android.view.animation.AnimationUtils.loadAnimation
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import java.util.*
 
 
 class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {

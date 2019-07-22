@@ -66,7 +66,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        JSONObject notification = new JSONObject();
+        /*JSONObject notification = new JSONObject();
         try {
             notification.put("title", getResources().getString(R.string.title_notification));
             notification.put("body", getResources().getString(R.string.body_notification));
@@ -77,7 +77,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             value.put("notification", notification);
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(JSON, value.toString());
 
