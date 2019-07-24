@@ -9,5 +9,11 @@
 
     <color name="navbar">#272727</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="gray">#efeff4</color>
+    <color name="backgroundMain">#9924272c</color>
+
+    <color name="darkGray">#393939</color>
+    <color name="darkGrayAlpha">#70393939</color>
+    <color name="lightGray">#C2C2C6</color>
 </resources>

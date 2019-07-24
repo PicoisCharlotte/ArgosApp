@@ -12,10 +12,6 @@
     </group>
     <group android:checkableBehavior="none">
         <item
-            android:id="@+id/menu_profil"
-            android:icon="@drawable/menu"
-            android:title="@string/monprofil"/>
-        <item
             android:id="@+id/menu_robots"
             android:icon="@drawable/menu"
             android:title="@string/mesrobots"/>

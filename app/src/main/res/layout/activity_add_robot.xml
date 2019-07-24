@@ -1,83 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context=".AddRobotActivity"
+    android:background="@color/darkGray"
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/navigationBar"
+    <ImageButton
+        android:id="@+id/close_add_robot"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:tint="@color/white"
+        android:src="@drawable/close_black" />
+
+    <TextView
+        android:id="@+id/text"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/gray">
-
-        <ImageButton
-            android:id="@+id/close"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:padding="12dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/close_black" />
-
-        <TextView
-            android:id="@+id/text_fact"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textAllCaps="true"
-            android:text="@string/addrobot_maj" />
-    </RelativeLayout>
-
+        android:layout_height="wrap_content"
+        android:text="@string/addrobot_maj"
+        android:layout_marginTop="30sp"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="25sp"/>
 
     <LinearLayout
+        android:id="@+id/formulaire"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:padding="10dp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/background_edit_text">
 
         <EditText
-            android:id="@+id/name"
+            android:id="@+id/robot_name"
             android:layout_width="match_parent"
+            android:background="@android:color/transparent"
             android:layout_height="wrap_content"
             android:hint="@string/name"
             android:inputType="textEmailAddress" />
-
-        <EditText
-            android:id="@+id/model"
+        <View
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="@dimen/liseret"
+            android:background="@color/darkGray"/>
+
+        <EditText
+            android:id="@+id/robot_model"
+            android:layout_width="match_parent"
+            android:background="@android:color/transparent"
             android:layout_height="wrap_content"
             android:hint="@string/model"
-            android:inputType="textPassword" />
-
-        <EditText
-            android:id="@+id/nb_capteur"
+            android:inputType="textEmailAddress" />
+        <View
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="@dimen/liseret"
+            android:background="@color/darkGray"/>
+
+        <EditText
+            android:id="@+id/robot_nb_captor"
+            android:layout_width="match_parent"
+            android:background="@android:color/transparent"
             android:layout_height="wrap_content"
             android:hint="@string/nbcapteurs"
-            android:inputType="textPassword" />
+            android:inputType="textEmailAddress" />
 
-        <Button
-            android:id="@+id/btn_connexion"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/add"
-            android:textColor="@android:color/white"/>
-
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/loading_indicator"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_add_robot"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/formulaire"
+        android:background="@drawable/background_button"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/add_robot"
+        android:textColor="@android:color/white"/>
 
 </RelativeLayout>

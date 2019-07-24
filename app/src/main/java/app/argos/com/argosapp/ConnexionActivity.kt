@@ -1,25 +1,23 @@
 package app.argos.com.argosapp
 
-import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
 
 import kotlinx.android.synthetic.main.activity_connexion.*
-import java.net.HttpURLConnection
 import java.net.URL
 import android.content.Intent
-import android.support.compat.R.id.text
-import android.util.Log
-import android.widget.Toast
+import android.os.Handler
+import android.os.Looper
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import app.argos.com.argosapp.Model.User
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonObject
+import app.argos.com.argosapp.manager.MyUserManager
+import kotlinx.android.synthetic.main.loading_indicator.*
 import okhttp3.*
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
+import library.Outils
 
 
 class ConnexionActivity : AppCompatActivity() {
@@ -29,17 +27,26 @@ class ConnexionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_connexion)
-        btn_connexion.setOnClickListener {
-            sendGet()
-        }
 
+        btn_inscription.setOnClickListener{
+            applicationContext.startActivity(Intent(applicationContext, InscriptionActivity::class.java))
+        }
+        btn_connexion.setOnClickListener {
+            loading_indicator.visibility = View.VISIBLE
+            Handler().postDelayed({
+                sendGet()
+            }, 300)
+
+        }
+        close.setOnClickListener {
+            finish()
+        }
     }
 
     fun sendGet() {
-        var urlString = "https://argosapi.herokuapp.com/user/select?action=selectAUser&credential="
+        var urlString = "https://argosapi.herokuapp.com/user/select?credential="
         var logins = "[\"" + email.text + "\",\"" + password.text +"\"]"
         urlString += logins
-        var message = " "
         val url = URL(urlString)
         val request = Request.Builder()
                 .url(url)
@@ -47,11 +54,11 @@ class ConnexionActivity : AppCompatActivity() {
 
         val callApi = client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Toast.makeText(applicationContext, "FAIL", Toast.LENGTH_SHORT).show()
+
             }
 
             override fun onResponse(call: Call, response: Response) {
-                Statics.IS_CONNECTED = true;
+                //userManager.connectUser(true)
                 var body = response?.body()?.string()
 
                 try {
@@ -60,10 +67,10 @@ class ConnexionActivity : AppCompatActivity() {
                         try {
                             val Jobject = JSONObject(body)
 
+                            Handler(Looper.getMainLooper()).postDelayed({
 
-                            if (Jobject.getBoolean("success")) {
-                            } else {
-                            }
+                                Outils.showDialog(applicationContext, getString(R.string.erreur), getString(R.string.mdp_or_login_incorrect))
+                            }, 300)
                         } catch (e: JSONException) {
                             e.printStackTrace()
                         }
@@ -74,23 +81,25 @@ class ConnexionActivity : AppCompatActivity() {
                         try {
                             val Jobject = JSONObject(body)
 
-                            /*if (Jobject.getString("data") != null && !Jobject.getString("data").equals("")) {
-                                val userJSON = Jobject.getString("data")
-                                val userObject = JsonObject(userJSON)
-                                val id_user = userJSON.getInt("id_user")
-                                val cellphone = userJSON.getString("cellphone")
-                                val email = userJSON.getString("email")
-                                val user : User()
-                            }*/
-                            if(Jobject.getString("token") != null && !Jobject.getString("token").equals("")){
-                                Statics.API_TOKEN = Jobject.getString("token")
+                            if (Jobject.getString("data") != null && !Jobject.getString("data").equals("")) {
+                                val userJSONArray = JSONArray(Jobject.getString("data"))
+                                val userJSON = JSONObject(userJSONArray.get(0).toString())
+                                val user = User(userJSON, true)
+                                User.instance.id = user.id
+                                User.instance.email = user.email
+                                User.instance.cellphone = user.cellphone
+                                MyUserManager.newInstance(this@ConnexionActivity).connectUser(true)
+                                user.id?.let { MyUserManager.newInstance(this@ConnexionActivity).setIdUser(it) }
                             }
 
+                            this@ConnexionActivity.runOnUiThread(java.lang.Runnable{
+                                if(loading_indicator != null)
+                                    loading_indicator.visibility = View.INVISIBLE
+                            })
                             applicationContext.startActivity(Intent(applicationContext, MainActivity::class.java))
                         } catch (e: JSONException) {
                             e.printStackTrace()
                         }
-
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -98,5 +107,4 @@ class ConnexionActivity : AppCompatActivity() {
             }
         })
     }
-
 }
