@@ -76,10 +76,11 @@ class RobotsFragment : Fragment(), AdapterCallbackRobot {
         }
     }
 
-    override fun goToVideo(idRobot: Int?) {
+    override fun goToVideo(robot: Robot) {
         activity?.let{
             val intent = Intent (it, VideoActivity::class.java)
-            intent.putExtra("id_robot", idRobot)
+            intent.putExtra("id_robot", robot.idRobot)
+            intent.putExtra("url_camera", robot.urlCamera)
             it.startActivity(intent)
         }
     }

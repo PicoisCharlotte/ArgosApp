@@ -34,26 +34,31 @@ import java.util.*
 class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
 
     var id_robot = 0
+    var url_camera = ""
     private val client = OkHttpClient()
     var json = JsonObject()
-    private lateinit var mediaPlayer: MediaPlayer
-    private var playbackPostition = 0
-    private val url = "http://argos.eu.ngrok.io/"
-
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video)
 
-        if(intent != null)
+        if(intent != null) {
             id_robot = intent.getIntExtra("id_robot", 0)
+            url_camera = intent.getStringExtra("url_camera")
+        }
 
         close.setOnClickListener {
             finish()
         }
         setOnClicks()
-        createWebView()
+        if(!url_camera.equals("")) {
+            video.visibility = View.VISIBLE
+            createWebView()
+        } else {
+            view_no_url_robot.visibility = View.VISIBLE
+            video.visibility = View.GONE
+        }
     }
 
     companion object {
@@ -65,20 +70,15 @@ class VideoActivity : AppCompatActivity(){//}, SurfaceHolder.Callback {
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun createWebView(){
-
         loading_indicator.visibility = View.VISIBLE
         video.setWebViewClient(WebViewClt(this))
         video.getSettings().setJavaScriptEnabled(true)
         video.getSettings().setJavaScriptCanOpenWindowsAutomatically(true)
         video.getSettings().setPluginState(WebSettings.PluginState.ON)
         video.getSettings().setMediaPlaybackRequiresUserGesture(false)
-        video.loadUrl(url)
+        video.loadUrl(url_camera)
 
         loading_indicator.visibility = View.GONE
-    }
-
-    public fun loadErrorPage(webView: WebView){
-
     }
 
     fun setOnClicks(){
